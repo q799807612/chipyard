@@ -12,7 +12,7 @@ DROMAJO_ROM = $(base_dir)/bootrom/bootrom.rv64.img
 DTS_FILE = $(build_dir)/$(long_name).dts
 DROMAJO_DTB = $(build_dir)/$(long_name).dtb
 
-$(DTS_FILE) $(DROMAJO_PARAMS_FILE): $(FIRRTL_FILE)
+$(DTS_FILE): $(FIRRTL_FILE)
 
 $(DROMAJO_DTB): $(DTS_FILE)
 	dtc -I dts -O dtb -o $(DROMAJO_DTB) $(DTS_FILE)
@@ -34,7 +34,10 @@ DROMAJO_FLAGS = +drj_dtb=$(DROMAJO_DTB) +drj_rom=$(DROMAJO_ROM) +drj_bin=$(DROMA
 DROMAJO_PARAMS_FILE    = $(build_dir)/$(long_name).dromajo_params.h
 DROMAJO_PARAMS_SYMLINK = $(build_dir)/dromajo_params.h
 
+$(DROMAJO_PARAMS_FILE): $(FIRRTL_FILE)
+
 $(DROMAJO_PARAMS_SYMLINK): $(DROMAJO_PARAMS_FILE)
+	rm -rf $(DROMAJO_PARAMS_SYMLINK)
 	ln -s $(DROMAJO_PARAMS_FILE) $(DROMAJO_PARAMS_SYMLINK)
 
 ##################################################################
